@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 # python版本 >=3.8
  
-import requests,time,re,json,random
+import requests,time,re,json,random,socket,struct
  
 now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 headers = {
@@ -18,7 +18,9 @@ def get_code(location):
 def login(user,password):
     url1 = "https://api-user.huami.com/registrations/+86" + user + "/tokens"
     headers = {
-        "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8",
+    "X-FORWARDED-FOR": str(socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))),
+    "CLIENT-IP": str(socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))),
+    "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8",
     "User-Agent":"MiFit/4.6.0 (iPhone; iOS 14.0.1; Scale/2.00)"
         }
     data1 = {
